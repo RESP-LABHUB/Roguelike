@@ -4,45 +4,45 @@ namespace Assets.Scripts
 {
     public class CoreContext : MonoBehaviour
     {
+        [SerializeField] private EcsManager _ecsManager;
+        [SerializeField] private PlayerInputManager playerInputManager;
+
         private void Awake()
         {
             var container = new DiContainer();
-    
+
+            container.Bind(new EcsFactory(container));
+            container.Bind(_ecsManager);
+            container.Bind(playerInputManager);
+
             container.InjectAll();
         }
     }
 
-    public interface IEnemy
+    public class EcsFactory : AbstractFactory
     {
-
-    }
-
-    public interface IWeapon
-    {
-
-    }
-
-    public class  Enemy : IEnemy
-    {
-        [Inject] private IWeapon _weapon; 
-
-    }
-
-    public class ConcreteFactory : AbstractFactory
-    {
-        public IEnemy Create()
+        public EcsFactory(DiContainer container) : base(container)
         {
-            IEnemy enemy = new Enemy();
+        }
 
-            Inject(enemy);
+        public T Create<T>() where T : class, new()
+        {
+            T system = new T();
 
-            return enemy;
+            Inject(system);
+
+            return system;
         }
     }
 
     public abstract class AbstractFactory
     {
-        [Inject] private DiContainer _container;
+        private DiContainer _container;
+
+        public AbstractFactory(DiContainer container)
+        {
+            _container = container;
+        }
 
         protected void Inject(object obj)
         {
