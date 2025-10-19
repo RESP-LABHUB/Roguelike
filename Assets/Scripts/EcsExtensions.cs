@@ -39,4 +39,9 @@ public static class EcsExtensions
             return ref AddComponent<T>(world, entity);
         }
     }
+
+    public static int GetFirstId(this EcsFilter filter)
+    {
+        return filter.GetRawEntities()[0];
+    }
 }

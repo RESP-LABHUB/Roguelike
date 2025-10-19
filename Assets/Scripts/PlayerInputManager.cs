@@ -19,6 +19,11 @@ public class PlayerInputManager : MonoBehaviour
         _playerInput.Disable();
     }
 
+    public Vector3 GetMoveDirection()
+    {
+        return _playerInput.Player.Move.ReadValue<Vector3>();
+    }
+
     public Vector2 GetMousePosition()
     {
         return _playerInput.Player.MousePosition.ReadValue<Vector2>();

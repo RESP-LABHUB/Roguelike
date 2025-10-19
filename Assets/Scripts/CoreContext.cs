@@ -6,6 +6,7 @@ namespace Assets.Scripts
     {
         [SerializeField] private EcsManager _ecsManager;
         [SerializeField] private PlayerInputManager playerInputManager;
+        [SerializeField] private Player _playerPrefab;
 
         private void Awake()
         {
@@ -14,6 +15,7 @@ namespace Assets.Scripts
             container.Bind(new EcsFactory(container));
             container.Bind(_ecsManager);
             container.Bind(playerInputManager);
+            container.Bind(_playerPrefab);
 
             container.InjectAll();
         }
